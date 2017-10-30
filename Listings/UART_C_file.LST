@@ -1,0 +1,64 @@
+C51 COMPILER V9.01   UART_C_FILE                                                           08/24/2016 10:15:44 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE UART_C_FILE
+OBJECT MODULE PLACED IN UART_C_file.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE UART_C_file.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*
+   2           * UART_C_file.c
+   3           *
+   4           * http://www.electronicwings.com
+   5           */
+   6          
+   7          #include<reg51.h>
+   8          #include"UART_H_file.h"
+   9          
+  10          void UART_Init()
+  11          {
+  12   1              TMOD = 0x20;
+  13   1              TH1 = 0xFD;
+  14   1              SCON = 0x50;
+  15   1              TR1 = 1;
+  16   1      }
+  17          
+  18          void UART_TxChar(char Data)
+  19          {
+  20   1              SBUF = Data;
+  21   1              while (TI==0);
+  22   1              TI = 0;
+  23   1      }
+  24          
+  25          char UART_RxChar()
+  26          {
+  27   1              char dat;
+  28   1              while (RI==0);
+  29   1              RI = 0;
+  30   1              dat = SBUF;
+  31   1              return(dat);
+  32   1      }
+  33                  
+  34          void UART_SendString(char *str)
+  35          {
+  36   1           int i;
+  37   1           for(i=0;str[i]!=0;i++)
+  38   1                      {
+  39   2               UART_TxChar(str[i]);
+  40   2          }
+  41   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     64    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
